@@ -1,4 +1,4 @@
-# Alpha Version, v0.0.2
+# Alpha Version, v0.1.0
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
@@ -10,7 +10,7 @@ import os
 def printHeader():
     print("\n================================================================")
     print("==      Spritesheet Creator for Friday Night Funkin           ==")
-    print("==      version 0.0.2, alpha                                  ==")
+    print("==      version 0.1.0-alpha                                  ==")
     print("================================================================")
     print("developed by BurntBread007, idea inspired from Phoxx\n")
 
