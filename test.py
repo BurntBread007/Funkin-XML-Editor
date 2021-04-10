@@ -57,15 +57,22 @@ def main():
     print("\nChoose the spacing (in pixels) between each frame:  ")
     spaceFrame = int(input())
     
+    xFrame = xFrame + spaceFrame
+    yFrame = yFrame + spaceFrame
+    
 # Calculate file resolution, and coordinates for each frame.
     frameCount = 94
     framesPerRow = frameCount % 5
-    xResolution = (xFrame + spaceFrame) * framesPerRow
-    yResolution = (yFrame + spaceFrame) * 7
+    xResolution = xFrame * framesPerRow
+    yResolution = yFrame * 7
 
 # Finds coordinates for each frame.
     framesMapped = 0
+    xFilled = 0
+    yFilled = 0
     for x in frameCount:
-        print("a")
-        
+        if(xFilled < (framesPerRow*xFrame)):
+            xFilled = xFilled + xFrame
+        elif(xFilled >= (framesPerRow*xFrame)):
+            yFilled = yFilled + yFrame
 main()
