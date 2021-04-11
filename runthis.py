@@ -1,4 +1,4 @@
-# Alpha Version, v0.1.0
+# Alpha Version, v0.2.0
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
@@ -7,45 +7,51 @@
 import io
 import os
 
+class Runthis:
+    def __init__(self, xFilled, yFilled, spaceFrame):
+        self.x = xFilled
+        self.y = yFilled
+        self.spacing = spaceFrame
+
+    def getX(self):
+        return self.x
+    def getY(self):
+        return self.y
+    def getSpace(self):
+        return self.spacing
+    def printMe(self):
+        print("[ "+str(self.x)+", "+str(self.y)+" ]")
+
 def printHeader():
     print("\n================================================================")
-    print("==      Spritesheet Creator for Friday Night Funkin           ==")
-    print("==      version 0.1.0-alpha                                  ==")
-    print("================================================================")
-    print("developed by BurntBread007, idea inspired from Phoxx\n")
+    print(  "==      Spritesheet Creator for Friday Night Funkin           ==")
+    print(  "==      version 0.2.0-alpha                                   ==")
+    print(  "================================================================")
+    print(  "developed by BurntBread007, idea inspired from Phoxx\n")
 
-def printAllCoords(bar, xFilled, yFilled, framesMapped, framesPerRow):
+def printAllCoords(xFilled, yFilled, framesMapped, framesPerRow):
+    bar = "================================================================"
+
     print("\n\nCoordinates for Frames:\n")
-
-    print("Death Loop (Frames 1 - 6) :")
-    print(bar)
+    print("Death Loop (Frames 1 - 6) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 1, 6)
-    print("\n\nDeath Retry (Frames 7 - 30) :")
-    print(bar)
+    print("\n\nDeath Retry (Frames 7 - 30) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 7, 30)
-    print("\n\nHey! (Frames 31 - 33) :")
-    print(bar)
+    print("\n\nHey! (Frames 31 - 33) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 31, 33)
-    print("\n\nDown Hits (Frames 34 - 37) :")
-    print(bar)
+    print("\n\nDown Hits (Frames 34 - 37) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 34, 37)
-    print("\n\nLeft Hits (Frames 38 - 42) :")
-    print(bar)
+    print("\n\nLeft Hits (Frames 38 - 42) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 38, 42)
-    print("\n\nRight Hits (Frames 43 - 46) :")
-    print(bar)
+    print("\n\nRight Hits (Frames 43 - 46) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 43, 46)
-    print("\n\nUp Hits (Frames 47 - 50) :")
-    print(bar)
+    print("\n\nUp Hits (Frames 47 - 50) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 47, 50)
-    print("\n\nDeath Start (Frames 51 - 85) :")
-    print(bar)
+    print("\n\nDeath Start (Frames 51 - 85) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 51, 85)
-    print("\n\nIdle (Frames 86 - 90) :")
-    print(bar)
+    print("\n\nIdle (Frames 86 - 90) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 86, 90)
-    print("\n\nScared (Frames 91 - 94) :")
-    print(bar)
+    print("\n\nScared (Frames 91 - 94) :\n"+bar)
     printCoords(xFilled, yFilled, framesMapped, framesPerRow, 91, 94)
 
 def printCoords(xFilled, yFilled, framesMapped, framesPerRow, start, stop):
@@ -58,49 +64,15 @@ def printCoords(xFilled, yFilled, framesMapped, framesPerRow, start, stop):
             framesMapped = 0
         y += 1
 
-def writeAllCoords(xFilled, yFilled, framesMapped, framesPerRow, savefile):
-    savefile.write("Coordinates for Frames:\n")
-
-    savefile.write("\nDeath Loop (Frames 1 - 6) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 1, 6, savefile)
-    savefile.write("\n\nDeath Retry (Frames 7 - 30) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 7, 30, savefile)
-    savefile.write("\n\nHey! (Frames 31 - 33) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 31, 33, savefile)
-    savefile.write("\n\nDown Hits (Frames 34 - 37) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 34, 37, savefile)
-    savefile.write("\n\nLeft Hits (Frames 38 - 42) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 38, 42, savefile)
-    savefile.write("\n\nRight Hits (Frames 43 - 46) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 43, 46, savefile)
-    savefile.write("\n\nUp Hits (Frames 47 - 50) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 47, 50, savefile)
-    savefile.write("\n\nDeath Start (Frames 51 - 85) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 51, 85, savefile)
-    savefile.write("\n\nIdle (Frames 86 - 90) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 86, 90, savefile)
-    savefile.write("\n\nScared (Frames 91 - 94) :\n")
-    writeCoords(xFilled, yFilled, framesMapped, framesPerRow, 91, 94, savefile)
-
-    print("\nResults were successfully written to spritesheet_coordinates.txt!")
-
-def writeCoords(xFilled, yFilled, framesMapped, framesPerRow, start, stop, savefile):
-    y = start
-    while(y <= stop):
-        savefile.write("[ "+str(xFilled[y])+", "+str(yFilled[y])+" ] \n")
-        framesMapped += 1
-        if(framesMapped > (framesPerRow/3)):
-            savefile.write("")
-            framesMapped = 0
-        y += 1
-
-def calcCoords(xFilled, yFilled, xCoord, yCoord, xFrame, yFrame, frameCount, framesPerRow):
+def calcCoords(xFilled, yFilled, xFrame, yFrame, frameCount, framesPerRow):
+    xCoord = 0
+    yCoord = 0
     for x in range(frameCount):
-        if(xFilled[x] < (framesPerRow*xFrame)):
+        if((xFilled[x]+xFrame) < (framesPerRow*xFrame)):
             xCoord += xFrame
             xFilled.append(xCoord)
             yFilled.append(yCoord)
-        elif(xFilled[x] >= (framesPerRow*xFrame)):
+        elif((xFilled[x]+xFrame) >= (framesPerRow*xFrame)):
             yCoord += yFrame
             xCoord = 0
             xFilled.append(xCoord)
@@ -122,46 +94,66 @@ def askSettings():
 
     xFrame = xFrame + spaceFrame
     yFrame = yFrame + spaceFrame
-    return xFrame,yFrame
+    return xFrame,yFrame,spaceFrame
 
-def editXML(direct):
+def editXML(spaceFrame, xFrame, yFrame, xFilled, yFilled):
+    direct = os.getcwd()
+
+    frameNumbers = open(direct+"\\source\\frameNumbers.txt", "r")
+    frameNumbers_contents = frameNumbers.read()
+    frameNumbers_lines = frameNumbers_contents.split("\n")
+    frameNumbers.close()
+    
     xml = open(direct+"\\source\\BOYFRIEND.xml", "r")
     xml_contents = xml.read()
     xml_lines = xml_contents.split("\n")
+    xml.close()
+    
+    newXml = open(direct+"\\output\\CUSTOM.xml", "w")
+    newXml_list = list()
+    for i in range(502):
+        currentFrame = int(float(frameNumbers_lines[i]))
+        writeOver = "x=\""+str(xFilled[currentFrame])+"\" y=\""+str(yFilled[currentFrame])+"\" width=\""+str((xFrame-spaceFrame))+"\" height=\""+str((yFrame-spaceFrame))+"\" frameX=\""+str(spaceFrame*-1)+"\" frameY=\""+str(spaceFrame*-1)+"\" frameWidth=\""+str(xFrame)+"\" frameHeight=\""+str(yFrame)+"\"/>"
 
-    # Line count of each type of animation
-    dead_loop     =  xml_contents.count("Dead Loop0")
-    dead_confirm  =  xml_contents.count("Dead confirm0")
-    hey           =  xml_contents.count("HEY!!0")
-    note_down     =  xml_contents.count("NOTE DOWN0")
-    note_downmiss =  xml_contents.count("NOTE DOWN MISS0")
-    note_left     =  xml_contents.count("NOTE LEFT0")
-    note_leftmiss =  xml_contents.count("NOTE LEFT MISS0")
-    note_right    =  xml_contents.count("NOTE RIGHT0")
-    note_rightmis =  xml_contents.count("NOTE RIGHT MISS0")
-    note_up       =  xml_contents.count("NOTE UP0")
-    note_upmiss   =  xml_contents.count("NOTE UP MISS0")
-    dies          =  xml_contents.count("dies0")
-    hit           =  xml_contents.count("hit0")
-    idle_dance    =  xml_contents.count("idle dance0")
-    idle_shaking  =  xml_contents.count("idle shaking0")
-    pre_attack    =  xml_contents.count("pre attack0")
-    attack        =  xml_contents.count("attack0")
-    dodge         =  xml_contents.count("dodge0")
+        if(int(float(frameNumbers_lines[i])) == 0):
+            newXml_list.append(xml_lines[i]+"\n")
+        else:
+            startingIndex = xml_lines[i].find("x=")
+            newXml_list.append(xml_lines[i][:startingIndex]+writeOver+"\n")
+
+    for x in newXml_list:
+        newXml.writelines(x)
+    newXml.close()
+
+#def askToSaveFile():
+#    print("\nWould you like to save these results to a .txt file? (Y/N)")
+#    saveToFile = input().upper()
+#    if(saveToFile == "Y"):
+#        savefile = open(direct+"\\spritesheet_coordinates.txt", "w")
+#        writeAllCoords(xFilled, yFilled, framesMapped, framesPerRow, savefile)
+#        savefile.close()
+#    elif(saveToFile == "N"):
+#        print("\nNo file has been created.")
+
+def askToSaveXML(spaceFrame, xFrame, yFrame, xFilled, yFilled):
+    print("\nWould you like to save a copy of a custom xml file? (CUSTOM.xml) (Y/N)")
+    saveToXML = input().upper()
+    if(saveToXML == "Y"):
+        print("Saving CUSTOM.xml...")
+        editXML(spaceFrame, xFrame, yFrame, xFilled, yFilled)
+        print("Saved!")
+    elif(saveToXML == "N"):
+        print("\nXML edit is discarded.")
 
 def exitOnPress():
     exitPress = input("\n\nPress Enter to close program...")
     exit()
 
 def main():
-    direct = os.getcwd()
-    # String Variables to save codespace.
-    bar = "================================================================"
-
     # Variables for sprite data.
     xFrame = 0
     yFrame = 0
-    spaceFrame = 5
+    spaceFrame = 0
     frameCount = 94
     framesPerRow = int(frameCount / 6)
 
@@ -171,24 +163,14 @@ def main():
     yFilled = list()
     xFilled.append(0)
     yFilled.append(0)
-    xCoord = 0
-    yCoord = 0
 
     printHeader()
-    xFrame,yFrame = askSettings()
+    xFrame,yFrame,spaceFrame = askSettings()
 
-    calcCoords(xFilled, yFilled, xCoord, yCoord, xFrame, yFrame, frameCount, framesPerRow)
-    printAllCoords(bar, xFilled, yFilled, framesMapped, framesPerRow)
+    calcCoords(xFilled, yFilled, xFrame, yFrame, frameCount, framesPerRow)
+    printAllCoords(xFilled, yFilled, framesMapped, framesPerRow)
     calcResolution(xFrame, yFrame, framesPerRow)
-    
-    print("\nWould you like to save these results to a .txt file? (Y/N)")
-    saveToFile = input().upper()
-    if(saveToFile == "Y"):
-        savefile = open(direct+"\\output\\spritesheet_coordinates.txt", "w")
-        writeAllCoords(xFilled, yFilled, framesMapped, framesPerRow, savefile)
-        savefile.close()
-    elif(saveToFile == "N"):
-        print("\nNo file has been created.")
 
+    askToSaveXML(spaceFrame, xFrame, yFrame, xFilled, yFilled)
     exitOnPress()
 main()
