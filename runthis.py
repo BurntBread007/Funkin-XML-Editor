@@ -1,12 +1,12 @@
-# Alpha Version, v0.3.0
+# Alpha Version, v0.3.1
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
 # Developed by BurntBread007
-# 4/12/2021
+# 4/13/2021
 import io
 import os
-from PIL import ImageDraw, Image, ImageFont
+from PIL import ImageDraw, Image, ImageFont, features
 
 direct = os.getcwd()
 
@@ -41,7 +41,7 @@ class Runthis:
 def printHeader():
     print("\n================================================================")
     print(  "==      FunkyXML Editor for Friday Night Funkin               ==")
-    print(  "==      version 0.3.0-alpha                                   ==")
+    print(  "==      version 0.3.1-alpha                                   ==")
     print(  "================================================================")
     print(  "developed by BurntBread007, idea inspired from Phoxx\n")
 
@@ -115,9 +115,9 @@ def askSettings():
     global xFrame, yFrame, spaceFrame
 
     print("Settings\n================================================================")
-    print("Enter the width of your custom sprite frame:  ")
+    print("Enter the width (in pixels) of your custom sprite frame:  ")
     xFrame = int(input())
-    print("\nEnter the height of your custom sprite frame:  ")
+    print("\nEnter the height (in pixels) of your custom sprite frame:  ")
     yFrame = int(input())
     print("\nChoose the spacing (in pixels) between each frame:  ")
     spaceFrame = int(input())
@@ -159,7 +159,7 @@ def askToSaveXML():
     if(saveToXML == "Y"):
         print("\nSaving CUSTOM_SPRITE.xml...")
         editXML()
-        print("Saved!")
+        print("Saved! \nCheck your output folder for results!")
     elif(saveToXML == "N"):
         print("XML edit is discarded.")
 
@@ -168,10 +168,12 @@ def drawImage():
 
     img = Image.new('RGBA', (xResolution, yResolution), (0,0,0,0))
     draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype('arial.ttf', int(yFrame / 3))
 
     for x in range(frameCount):
         coords = [xFilled[x], yFilled[x], xFilled[x]+xFrame-spaceFrame, yFilled[x]+yFrame-spaceFrame]
         draw.rectangle(coords, fill ='green', outline ='red')
+        draw.text((xFilled[x], yFilled[x]), str(x+1), fill='#A0A0A0', font=font)
 
     img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
 
@@ -181,7 +183,7 @@ def askToSaveImage():
     if(saveToImage == "Y"):
         print("\nSaving CUSTOM_SPRITE_OUTLINE.png...")
         drawImage()
-        print("Saved!")
+        print("Saved! \nCheck your output folder for results!")
     elif(saveToImage == "N"):
         print("\nImage file is discarded.")
 
