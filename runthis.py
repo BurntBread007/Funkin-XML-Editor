@@ -117,7 +117,7 @@ def askSettings():
     print("Settings\n================================================================")
     print("Enter the width of your custom sprite frame:  ")
     xFrame = int(input())
-    print("\nEnter the width of your custom sprite frame:  ")
+    print("\nEnter the height of your custom sprite frame:  ")
     yFrame = int(input())
     print("\nChoose the spacing (in pixels) between each frame:  ")
     spaceFrame = int(input())
@@ -174,7 +174,6 @@ def drawImage():
         draw.rectangle(coords, fill ='green', outline ='red')
 
     img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
-    img.show()
 
 def askToSaveImage():
     print("\n\nWould you like save a copy of the custom spritesheet outline guide? (CUSTOM_SPRITE_OUTLINE.png) (Y/N)")
