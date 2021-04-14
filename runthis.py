@@ -1,4 +1,4 @@
-# Alpha Version, v0.3.1
+# Alpha Version, v0.3.2
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
@@ -41,7 +41,7 @@ class Runthis:
 def printHeader():
     print("\n================================================================")
     print(  "==      FunkyXML Editor for Friday Night Funkin               ==")
-    print(  "==      version 0.3.1-alpha                                   ==")
+    print(  "==      version 0.3.2-alpha                                   ==")
     print(  "================================================================")
     print(  "developed by BurntBread007, idea inspired from Phoxx\n")
 
@@ -103,24 +103,28 @@ def calcResolution():
     yResolution = yFrame * 7
 
 # checkType() is currently not being used, might use for error-checking later on.
-def checkType(inp):
-    inp = int(input())
-    while(type(inp) != 'int'):
-        print("Oops")
-        temp = int(input())
-    inp = temp
-    return inp
+def checkType():
+    inp = input()
+    try:
+        inpInt = int(inp)
+        if(inpInt < 1):
+            inpInt = inpInt * -1
+        return inpInt
+    except ValueError:
+        print("Invalid response. Try again with a whole number.")
+        return(checkType())
+
 
 def askSettings():
     global xFrame, yFrame, spaceFrame
 
     print("Settings\n================================================================")
     print("Enter the width (in pixels) of your custom sprite frame:  ")
-    xFrame = int(input())
+    xFrame = checkType()
     print("\nEnter the height (in pixels) of your custom sprite frame:  ")
-    yFrame = int(input())
+    yFrame = checkType()
     print("\nChoose the spacing (in pixels) between each frame:  ")
-    spaceFrame = int(input())
+    spaceFrame = checkType()
 
     xFrame = xFrame + spaceFrame
     yFrame = yFrame + spaceFrame
@@ -131,18 +135,21 @@ def editXML():
     frameNumbers_contents = frameNumbers.read()
     frameNumbers_lines = frameNumbers_contents.split("\n")
     frameNumbers.close()
-    
-    xml = open(direct+"\\source\\BOYFRIEND.xml", "r")
-    xml_contents = xml.read()
-    xml_lines = xml_contents.split("\n")
-    xml.close()
-    
+
+    try:
+        xml = open(direct+"\\source\\BOYFRIEND.xml", "r")
+        xml_contents = xml.read()
+        xml_lines = xml_contents.split("\n")
+        xml.close()
+    except FileNotFoundError:
+        print("\nHmm, we couldn't find 'BOYFRIEND.xml' in the source folder. If it isn't there, add it in and restart the program.\nIf it is already there, check the spelling of the file name, as well as the contents of the file (should be about 502 lines of text).\n\nCurrently this project is designed to only use the vanilla 'BOYFRIEND'.xml, so make sure you aren't using a modified version.")
+        exitOnPress()
+
     newXml = open(direct+"\\output\\CUSTOM_SPRITE.xml", "w")
     newXml_list = list()
     for i in range(502):
         currentFrame = int(float(frameNumbers_lines[i]))
         writeOver = "x=\""+str(xFilled[currentFrame])+"\" y=\""+str(yFilled[currentFrame])+"\" width=\""+str((xFrame-spaceFrame))+"\" height=\""+str((yFrame-spaceFrame))+"\" frameX=\""+str(spaceFrame*-1)+"\" frameY=\""+str(spaceFrame*-1)+"\" frameWidth=\""+str(xFrame)+"\" frameHeight=\""+str(yFrame)+"\"/>"
-
         if(int(float(frameNumbers_lines[i])) == 0):
             newXml_list.append(xml_lines[i]+"\n")
         else:
@@ -154,14 +161,16 @@ def editXML():
     newXml.close()
 
 def askToSaveXML():
-    print("\nWould you like to save a copy of the custom .xml file? (CUSTOM_SPRITE.xml) (Y/N)")
     saveToXML = input().upper()
-    if(saveToXML == "Y"):
+    if(saveToXML[0:1] == "Y"):
         print("\nSaving CUSTOM_SPRITE.xml...")
         editXML()
         print("Saved! \nCheck your output folder for results!")
-    elif(saveToXML == "N"):
+    elif(saveToXML[0:1] == "N"):
         print("XML edit is discarded.")
+    else:
+        print("\nInvalid response. Type Y or N (or Yes/No)")
+        askToSaveXML()
 
 def drawImage():
     global xResolution, yResolution, xFrame, yFrame, xFilled, yFilled, frameCount, spaceFrame, direct
@@ -178,14 +187,16 @@ def drawImage():
     img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
 
 def askToSaveImage():
-    print("\n\nWould you like save a copy of the custom spritesheet outline guide? (CUSTOM_SPRITE_OUTLINE.png) (Y/N)")
     saveToImage = input().upper()
-    if(saveToImage == "Y"):
+    if(saveToImage[0:1] == "Y"):
         print("\nSaving CUSTOM_SPRITE_OUTLINE.png...")
         drawImage()
         print("Saved! \nCheck your output folder for results!")
-    elif(saveToImage == "N"):
+    elif(saveToImage[0:1] == "N"):
         print("\nImage file is discarded.")
+    else:
+        print("\nInvalid response. Type Y or N (or Yes/No)")
+        askToSaveImage()
 
 def exitOnPress():
     exitPress = input("\n\nPress Enter to close program...")
@@ -205,8 +216,12 @@ def main():
     printAllCoords()
 
     print("\n\nTotal Spritesheet Resolution:\n " + str(xResolution) + " x " + str(yResolution))
-    askToSaveXML()
+
+    print("\n\nWould you like save a copy of the custom spritesheet outline guide? (CUSTOM_SPRITE_OUTLINE.png) (Y/N)")
     askToSaveImage()
+
+    print("\nWould you like to save a copy of the custom .xml file? (CUSTOM_SPRITE.xml) (Y/N)")
+    askToSaveXML()
 
     exitOnPress()
 main()
