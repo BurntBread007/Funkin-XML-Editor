@@ -1,9 +1,9 @@
-# Alpha Version, v0.3.2
+# Alpha Version, v0.3.3
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
 # Developed by BurntBread007
-# 4/13/2021
+# 4/14/2021
 import io
 import os
 from PIL import ImageDraw, Image, ImageFont, features
@@ -22,6 +22,7 @@ framesPerRow = int(frameCount / 6)
 
 xFilled = list()
 yFilled = list()
+typeFilled = list()
 
 class Runthis:
     def __init__(self, xFilled, yFilled, spaceFrame):
@@ -41,7 +42,7 @@ class Runthis:
 def printHeader():
     print("\n================================================================")
     print(  "==      FunkyXML Editor for Friday Night Funkin               ==")
-    print(  "==      version 0.3.2-alpha                                   ==")
+    print(  "==      version 0.3.3-alpha                                   ==")
     print(  "================================================================")
     print(  "developed by BurntBread007, idea inspired from Phoxx\n")
 
@@ -50,33 +51,34 @@ def printAllCoords():
 
     print("\n\nCoordinates for Frames:\n")
     print("Death Loop (Frames 1 - 6) :\n"+bar)
-    printCoords(1, 6)
+    printCoords(1, 6, "Death \nLoop")
     print("\n\nDeath Retry (Frames 7 - 30) :\n"+bar)
-    printCoords(7, 30)
+    printCoords(7, 30, "Death \nRetry")
     print("\n\nHey! (Frames 31 - 33) :\n"+bar)
-    printCoords(31, 33)
+    printCoords(31, 33, "Hey!")
     print("\n\nDown Hits (Frames 34 - 37) :\n"+bar)
-    printCoords(34, 37)
+    printCoords(34, 37, "Down \nHits")
     print("\n\nLeft Hits (Frames 38 - 42) :\n"+bar)
-    printCoords(38, 42)
+    printCoords(38, 42, "Left \nHits")
     print("\n\nRight Hits (Frames 43 - 46) :\n"+bar)
-    printCoords(43, 46)
+    printCoords(43, 46, "Right \nHits")
     print("\n\nUp Hits (Frames 47 - 50) :\n"+bar)
-    printCoords(47, 50)
+    printCoords(47, 50, "Up \nHits")
     print("\n\nDeath Start (Frames 51 - 85) :\n"+bar)
-    printCoords(51, 85)
+    printCoords(51, 85, "Death \nStart")
     print("\n\nIdle (Frames 86 - 90) :\n"+bar)
-    printCoords(86, 90)
+    printCoords(86, 90, "Idle")
     print("\n\nScared (Frames 91 - 94) :\n"+bar)
-    printCoords(91, 94)
+    printCoords(91, 94, "Scared")
 
-def printCoords(start, stop):
-    global xFilled, yFilled, framesPerRow
+def printCoords(start, stop, animType):
+    global xFilled, yFilled, typeFilled, framesPerRow
     framesMapped = 0
-    y = start
-    while(y <= stop):
+    y = start - 1
+    while(y <= (stop-1)):
         print("[ "+str(xFilled[y])+", "+str(yFilled[y])+" ]", end="\t")
         framesMapped += 1
+        typeFilled[y] = animType
         if(framesMapped > (framesPerRow/3)):
             print("")
             framesMapped = 0
@@ -131,7 +133,7 @@ def askSettings():
 
 def editXML():
     global direct, xFilled, yFilled, xFrame, yFrame, spaceFrame
-    frameNumbers = open(direct+"\\source\\frameNumbers.txt", "r")
+    frameNumbers = open(direct+"\\source\\boyfriend_frames.txt", "r")
     frameNumbers_contents = frameNumbers.read()
     frameNumbers_lines = frameNumbers_contents.split("\n")
     frameNumbers.close()
@@ -148,9 +150,9 @@ def editXML():
     newXml = open(direct+"\\output\\CUSTOM_SPRITE.xml", "w")
     newXml_list = list()
     for i in range(502):
-        currentFrame = int(float(frameNumbers_lines[i]))
+        currentFrame = int(float(frameNumbers_lines[i]))-1
         writeOver = "x=\""+str(xFilled[currentFrame])+"\" y=\""+str(yFilled[currentFrame])+"\" width=\""+str((xFrame-spaceFrame))+"\" height=\""+str((yFrame-spaceFrame))+"\" frameX=\""+str(spaceFrame*-1)+"\" frameY=\""+str(spaceFrame*-1)+"\" frameWidth=\""+str(xFrame)+"\" frameHeight=\""+str(yFrame)+"\"/>"
-        if(int(float(frameNumbers_lines[i])) == 0):
+        if(int(float(frameNumbers_lines[i])) < 1):
             newXml_list.append(xml_lines[i]+"\n")
         else:
             startingIndex = xml_lines[i].find("x=")
@@ -173,17 +175,27 @@ def askToSaveXML():
         askToSaveXML()
 
 def drawImage():
-    global xResolution, yResolution, xFrame, yFrame, xFilled, yFilled, frameCount, spaceFrame, direct
+    global xResolution, yResolution, xFrame, yFrame, xFilled, yFilled, typeFilled, frameCount, spaceFrame, direct
 
     img = Image.new('RGBA', (xResolution, yResolution), (0,0,0,0))
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype('arial.ttf', int(yFrame / 3))
+
+    font_numbers_size = int(yFrame / 3)
+    font_numbers = ImageFont.truetype('arial.ttf', font_numbers_size)
+
+    if(xFrame >= yFrame):
+        font_names_size = int(yFrame / 4)
+    else:
+        font_names_size = int(xFrame / 3.5)
+    font_names = ImageFont.truetype('arial.ttf', font_names_size)
 
     for x in range(frameCount):
         coords = [xFilled[x], yFilled[x], xFilled[x]+xFrame-spaceFrame, yFilled[x]+yFrame-spaceFrame]
-        draw.rectangle(coords, fill ='green', outline ='red')
-        draw.text((xFilled[x], yFilled[x]), str(x+1), fill='#A0A0A0', font=font)
+        draw.rectangle(coords, fill ='#2B9100', outline ='red')
+        draw.text((xFilled[x], yFilled[x]), str(x+1), fill='#003E6B', font=font_numbers)
+        draw.text((xFilled[x], yFilled[x]+(yFrame/3)), typeFilled[x], fill='black', font=font_names)
 
+    #img.show()
     img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
 
 def askToSaveImage():
@@ -205,9 +217,11 @@ def exitOnPress():
 def main():
     printHeader()
 
-    global xFilled, yFilled, xFrame, yFrame, spaceFrame, xResolution, yResolution
+    global xFilled, yFilled, typeFilled, xFrame, yFrame, spaceFrame, xResolution, yResolution, frameCount
     xFilled.append(0)
     yFilled.append(0)
+    for x in range(frameCount):
+        typeFilled.append("")
 
     askSettings()
 
