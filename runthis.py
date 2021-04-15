@@ -1,4 +1,4 @@
-# Alpha Version, v0.3.3
+# Alpha Version, v0.4.0
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
@@ -44,7 +44,7 @@ class Runthis:
 def printHeader():
     print("\n================================================================")
     print(  "==      FunkyXML Editor for Friday Night Funkin               ==")
-    print(  "==      version 0.3.3-alpha                                   ==")
+    print(  "==      version 0.4.0-alpha                                   ==")
     print(  "================================================================")
     print(  "developed by BurntBread007, idea inspired from Phoxx\n")
 
