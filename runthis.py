@@ -12,6 +12,8 @@ direct = os.getcwd()
 
 xResolution = 0
 yResolution = 0
+xOffset = 0
+yOffset = 0
 
 xFrame = 0
 yFrame = 0
@@ -26,20 +28,20 @@ xFilled = list()
 yFilled = list()
 typeFilled = list()
 
-class Runthis:
-    def __init__(self, xFilled, yFilled, spaceFrame):
-        self.x = xFilled
-        self.y = yFilled
-        self.spacing = spaceFrame
-
-    def getX(self):
-        return self.x
-    def getY(self):
-        return self.y
-    def getSpace(self):
-        return self.spacing
-    def printMe(self):
-        print("[ "+str(self.x)+", "+str(self.y)+" ]")
+#class Runthis:
+#    def __init__(self, xFilled, yFilled, spaceFrame):
+#        self.x = xFilled
+#        self.y = yFilled
+#        self.spacing = spaceFrame
+#
+#    def getX(self):
+#        return self.x
+#    def getY(self):
+#        return self.y
+#    def getSpace(self):
+#        return self.spacing
+#    def printMe(self):
+#        print("[ "+str(self.x)+", "+str(self.y)+" ]")
 
 def printHeader():
     print("\n================================================================")
@@ -50,58 +52,46 @@ def printHeader():
 
 def printAllCoords():
     global framefile
-    bar = "================================================================"
     print("\n\nCoordinates for Frames:\n")
     if(framefile == "boyfriend_frames.txt"):
-        print("Death Loop (Frames 1 - 6) :\n"+bar)
         printCoords(1, 6, "Death \nLoop")
-        print("\n\nDeath Retry (Frames 7 - 30) :\n"+bar)
         printCoords(7, 30, "Death \nRetry")
-        print("\n\nHey! (Frames 31 - 33) :\n"+bar)
         printCoords(31, 33, "Hey!")
-        print("\n\nDown Hits (Frames 34 - 37) :\n"+bar)
         printCoords(34, 37, "Down")
-        print("\n\nLeft Hits (Frames 38 - 42) :\n"+bar)
         printCoords(38, 42, "Left")
-        print("\n\nRight Hits (Frames 43 - 46) :\n"+bar)
         printCoords(43, 46, "Right")
-        print("\n\nUp Hits (Frames 47 - 50) :\n"+bar)
         printCoords(47, 50, "Up")
-        print("\n\nDeath Start (Frames 51 - 85) :\n"+bar)
         printCoords(51, 85, "Death \nStart")
-        print("\n\nIdle (Frames 86 - 90) :\n"+bar)
         printCoords(86, 90, "Idle")
-        print("\n\nScared (Frames 91 - 94) :\n"+bar)
         printCoords(91, 94, "Scared")
     elif(framefile == "bfCar_frames.txt"):
-        print("Down (Frames 1 - 8) :\n"+bar)
         printCoords(1, 8, "Down")
-        print("\n\nLeft Hits (Frames 9 - 17) :\n"+bar)
         printCoords(9, 17, "Left")
-        print("\n\nRight Hits (Frames 18 - 25) :\n"+bar)
         printCoords(18, 25, "Right")
-        print("\n\nUp Hits (Frames 26 - 33) :\n"+bar)
         printCoords(26, 33, "Up")
-        print("\n\n Idle Hits (Frames 34 - 23) :\n"+bar)
         printCoords(34, 45, "Idle")
     elif(framefile == "bfChristmas_frames.txt"):
-        print("Hey! (Frames 1 - 3) :\n"+bar)
         printCoords(1, 3, "Hey!")
-        print("\n\nDown Hits (Frames 4 - 8) :\n"+bar)
         printCoords(4, 8, "Down")
-        print("\n\nLeft Hits (Frames 9 - 13) :\n"+bar)
         printCoords(9, 13, "Left")
-        print("\n\nRight Hits (Frames 14 - 18) :\n"+bar)
         printCoords(14, 18, "Right")
-        print("\n\nUp Hits (Frames 19 - 23) :\n"+bar)
         printCoords(19, 23, "Up")
-        print("\n\nIdle (Frames 24 - 28) :\n"+bar)
         printCoords(24, 28, "Idle")
+    #elif(framefile == "Pico_FNF_assets_frames.txt"):
+    #    pass
+    #elif(framefile == "DADDY_DEAREST_frames.txt"):
+    #    pass
+    #elif(framefile == "spooky_kids_assets_frames.txt"):
+    #    pass
+    #elif(framefile == "Monster_assets_frames"):
+    #    pass
 
 def printCoords(start, stop, animType):
     global xFilled, yFilled, typeFilled, framesPerRow
     framesMapped = 0
     y = start - 1
+    bar = "================================================================"
+    print("\n\n"+animType+" (Frames "+str(start)+" - "+str(stop)+") :\n"+bar)
     while(y <= (stop-1)):
         print("[ "+str(xFilled[y])+", "+str(yFilled[y])+" ]", end="\t")
         framesMapped += 1
@@ -143,7 +133,7 @@ def checkType():
         return(checkType())
 
 def askSettings():
-    global xFrame, yFrame, spaceFrame, frameCount, framefile, xmlfile
+    global xFrame, yFrame, spaceFrame, frameCount, framefile, xmlfile, xOffset, yOffset
 
     print("Settings\n================================================================")
 
@@ -169,18 +159,23 @@ def askSettings():
     #   framefile = "bfPixels_frames.txt"
     #   framefile2 = "bfPixelsDEAD_frames.txt"
 
-    print("Enter the width (in pixels) of your custom sprite frame:  ")
+    print("\nEnter the width (in pixels) of your custom sprite frame:  ")
     xFrame = checkType()
     print("\nEnter the height (in pixels) of your custom sprite frame:  ")
     yFrame = checkType()
     print("\nChoose the spacing (in pixels) between each frame:  ")
     spaceFrame = checkType()
 
+    print("\nChoose the X (horizontal) offset of the frames:\n (Negative values go left, positive values go right.)  ")
+    xOffset = checkType()
+    print("\nChoose the Y (vertical) offset of the frames:\n (Negative values go down, positive values go up.)  ")
+    yOffset = checkType()
+
     xFrame = xFrame + spaceFrame
     yFrame = yFrame + spaceFrame
 
 def editXML():
-    global direct, xFilled, yFilled, xFrame, yFrame, spaceFrame, framefile
+    global direct, xFilled, yFilled, xFrame, yFrame, spaceFrame, framefile, xOffset, yOffset
     frameNumbers = open(direct+"\\source\\"+framefile, "r")
     frameNumbers_contents = frameNumbers.read()
     frameNumbers_lines = frameNumbers_contents.split("\n")
@@ -196,7 +191,7 @@ def editXML():
         newXml_list = list()
         for i in range(len(frameNumbers_lines)):
             currentFrame = int(float(frameNumbers_lines[i]))-1
-            writeOver = "x=\""+str(xFilled[currentFrame])+"\" y=\""+str(yFilled[currentFrame])+"\" width=\""+str((xFrame-spaceFrame))+"\" height=\""+str((yFrame-spaceFrame))+"\" frameX=\""+str(spaceFrame*-1)+"\" frameY=\""+str(spaceFrame*-1)+"\" frameWidth=\""+str(xFrame)+"\" frameHeight=\""+str(yFrame)+"\"/>"
+            writeOver = "x=\""+str(xFilled[currentFrame])+"\" y=\""+str(yFilled[currentFrame])+"\" width=\""+str((xFrame-spaceFrame))+"\" height=\""+str((yFrame-spaceFrame))+"\" frameX=\""+str(xOffset*-1)+"\" frameY=\""+str(yOffset*-1)+"\" frameWidth=\""+str((xFrame-spaceFrame)+xOffset)+"\" frameHeight=\""+str((yFrame-spaceFrame)+yOffset)+"\"/>"
             if(int(float(frameNumbers_lines[i])) < 1):
                 newXml_list.append(xml_lines[i]+"\n")
             else:
@@ -243,8 +238,8 @@ def drawImage():
         draw.text((xFilled[x], yFilled[x]), str(x+1), fill='#003E6B', font=font_numbers)
         draw.text((xFilled[x], yFilled[x]+(yFrame/3)), typeFilled[x], fill='black', font=font_names)
 
-    img.show()
-    #img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
+    #img.show()
+    img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
 
 def askToSaveImage():
     saveToImage = input().upper()
