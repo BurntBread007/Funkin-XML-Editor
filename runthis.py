@@ -1,4 +1,4 @@
-# Alpha Version, v0.4.0
+# Alpha Version, v0.4.1
 # Takes user-given width and height of a sprite, and dynamically creates
 # a spritesheet resolution, along with coordinates for each type of frame.
 # 
@@ -46,7 +46,7 @@ typeFilled = list()
 def printHeader():
     print("\n================================================================")
     print(  "==      FunkyXML Editor for Friday Night Funkin               ==")
-    print(  "==      version 0.4.0-alpha                                   ==")
+    print(  "==      version 0.4.1-alpha                                   ==")
     print(  "================================================================")
     print(  "developed by BurntBread007, idea inspired from Phoxx\n")
 
@@ -138,7 +138,7 @@ def askSettings():
     print("Settings\n================================================================")
 
     print("Choose a character you would like to customize:")
-    print("\nCharacters:\n \tBoyfriend - Press 1\n \tBoyfriend Car - Press 2\n \tBoyfriend Christmas - Press 3")
+    print("\nCharacters:\n \tBoyfriend - Press 1\n \tBoyfriend Car - Press 2\n \tBoyfriend Christmas - Press 3\n \tSpooky Kids - Press 5\n \tDad - Press 7")
     charInp = checkType()
     if(charInp == 1): #original
         frameCount = 94
@@ -152,12 +152,27 @@ def askSettings():
         frameCount = 28
         xmlfile = "bfChristmas.xml"
         framefile = "bfChristmas_frames.txt"
-    #elif(charInp == '4'): # pixel
+    #elif(charInp == 4): # pixel
     #   frameCount = "a lot"
     #   xmlfile = "bfPixels.xml"
     #   xmlfile2 = "bfPixelsDEAD.xml"
     #   framefile = "bfPixels_frames.txt"
     #   framefile2 = "bfPixelsDEAD_frames.txt"
+    elif(charInp == 5): # spooky
+        xmlfile = "spooky_kids_assets.xml"
+        frameCount = 14
+        framefile = "spooky_kids_assets_frames.txt"
+    #elif(charInp == 6): # pico
+    #    xmlfile = "Pico_FNF_assets.xml"
+    #    framefile = "Pico_FNF_assets_frames.txt"
+    elif(charInp == 7): # dad
+        xmlfile = "DADDY_DEAREST.xml"
+        frameCount = 14
+        framefile = "DADDY_DEAREST_frames.txt"
+    #elif(charInp == 8): # mom car
+    #    xmlfile = "momCar.xml"
+    #    framefile = "momCar_frames.txt"
+
 
     print("\nEnter the width (in pixels) of your custom sprite frame:  ")
     xFrame = checkType()
@@ -176,7 +191,7 @@ def askSettings():
 
 def editXML():
     global direct, xFilled, yFilled, xFrame, yFrame, spaceFrame, framefile, xOffset, yOffset
-    frameNumbers = open(direct+"\\source\\"+framefile, "r")
+    frameNumbers = open(direct+"\\source\\xml\\"+framefile, "r")
     frameNumbers_contents = frameNumbers.read()
     frameNumbers_lines = frameNumbers_contents.split("\n")
     frameNumbers.close()
