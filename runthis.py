@@ -79,10 +79,18 @@ def printAllCoords():
         printCoords(24, 28, "Idle")
     #elif(framefile == "Pico_FNF_assets_frames.txt"):
     #    pass
-    #elif(framefile == "DADDY_DEAREST_frames.txt"):
-    #    pass
-    #elif(framefile == "spooky_kids_assets_frames.txt"):
-    #    pass
+    elif(framefile == "DADDY_DEAREST_frames.txt"):
+        printCoords(1, 3, "Right")
+        printCoords(4, 5, "Down")
+        printCoords(6, 8, "Up")
+        printCoords(12, 12, "Left")
+        printCoords(9, 18, "Idle")
+    elif(framefile == "spooky_kids_assets_frames.txt"):
+        printCoords(1, 2, "Left")
+        printCoords(3, 4, "Down")
+        printCoords(5, 6, "Up")
+        printCoords(7, 12, "Idle")
+        printCoords(13, 14, "Right")
     #elif(framefile == "Monster_assets_frames"):
     #    pass
 
