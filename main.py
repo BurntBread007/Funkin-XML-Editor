@@ -5,13 +5,14 @@
 import io
 import os
 
-from lib import VanillaEngine
-from lib import KadeEngine
-from lib import PsychEngine
+#from lib import VanillaEngine
+#from lib import KadeEngine
+#from lib import PsychEngine
 
 from lib import SpriteConverting
 from lib import ImageWriting
 from lib import XmlEditing
+#from lib import GlobalVars
 
 from PIL import ImageDraw, Image, ImageFont, features
 direct = os.getcwd()
@@ -24,7 +25,7 @@ direct = os.getcwd()
 #        return self.x
 #    def printMe(self):
 #        print("[ "+str(self.x)+", "+str(self.y)+" ]")
-    
+
 def printHeader():
     print("\n================================================================")
     print(  "==      FunkyXML Editor (for Friday Night Funkin)             ==")
@@ -37,7 +38,7 @@ def chooseEngine():
     print("1 -- Vanilla Engine (default)")
     print("2 -- Kade Engine")
     print("3 -- Psych Engine\n")
-    
+
     engine = checkType(3)
     return engine
 
@@ -48,8 +49,9 @@ def printMainMenu():
     print("2 -- Create or edit XML file(s)")
     print("3 -- Convert Frames -> Spritesheet")
     print("4 -- Convert Spritesheet -> Frames")
+    print("n/a -- Convert to another engine")
     print("5 -- Quit Application")
-    
+
     inp = checkType(5)
     if(inp == 1):
         ImageWriting.run()
@@ -61,7 +63,7 @@ def printMainMenu():
         SpriteConverting.run(1)
     elif(inp == 5):
         exitOnPress()  
-    
+
 def checkType(inpMax):
     inp = input()
     try:
