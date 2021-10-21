@@ -5,15 +5,9 @@
 import io
 import os
 
-#from lib import VanillaEngine
-#from lib import KadeEngine
-#from lib import PsychEngine
+#from lib import VanillaEngine, KadeEngine, PsychEngine
 
-from lib import SpriteConverting
-from lib import ImageWriting
-from lib import XmlEditing
-#from lib import GlobalVars
-
+from lib import globalVars, SpriteConverting, ImageWriting, XmlEditing
 from PIL import ImageDraw, Image, ImageFont, features
 direct = os.getcwd()
 
@@ -45,17 +39,18 @@ def chooseEngine():
 def printMainMenu():
     print("\nChoose an action below to complete. (To-Add: Append \"help\" after the number to learn more about the action.)")
     print("\n==============================\n")
-    print("1 -- Create spritesheet template(s)")
-    print("2 -- Create or edit XML file(s)")
-    print("3 -- Convert Frames -> Spritesheet")
-    print("4 -- Convert Spritesheet -> Frames")
-    print("n/a -- Convert to another engine")
+    print("1 -- Create spritesheet from scratch")
+    print("2 -- Create spritesheet and/or XML from existing XML")
+    print("3 -- Convert Frames to Spritesheet")
+    print("4 -- Convert to another engine")
     print("5 -- Quit Application")
 
     inp = checkType(5)
     if(inp == 1):
+        askFrameSettings()
         ImageWriting.run()
     elif(inp == 2):
+        askFrameSettings()
         XmlEditing.run()
     elif(inp == 3):
         SpriteConverting.run(0)
@@ -75,6 +70,24 @@ def checkType(inpMax):
         print("Invalid response. Try again with a whole number.")
         return(checkType(inpMax))
 
+def askFrameSettings():
+    print("\n\nChoose settings from a file or create manually?")
+    print("1 -- Create manually")
+    print("2 -- Create by file\n")
+    frameMakeMethod = checkType(2)
+    
+    if(frameMakeMethod == 1):
+        print("\nFrame X-resolution? (Max is 2048 pixels)")
+        globalVars.xRes = checkType(2048)
+        print("\nFrame Y-resolution? (Max is 2048 pixels)")
+        globalVars.yRes = checkType(2048)
+        globalVars.spaceRes = int(((globalVars.xRes+globalVars.yRes) * 0.025)+1)
+        print("SpaceRes " + str(globalVars.spaceRes))
+        print("Xres " + str(globalVars.xRes))
+        print("Yres " + str(globalVars.yRes))
+    elif(frameMakeMethod == 2):
+        print("not done yet")
+    
 def exitOnPress():
     exitPress = input("\n\nPress Enter to close program...")
     exit()

@@ -244,7 +244,7 @@ def drawImage():
         draw.text((xFilled[x], yFilled[x]+(yFrame/3)), typeFilled[x], fill='black', font=font_names)
 
     img.show()
-    #img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
+    img.save(direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
 
 def askToSaveImage():
     saveToImage = input().upper()
