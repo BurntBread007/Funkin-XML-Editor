@@ -21,7 +21,7 @@ def calculateFrames():
     coordList = list()
     animList = list()
     frameCount = 0
-    
+
     anim = ""
     up = "UP"
     down = "DOWN"
@@ -32,7 +32,7 @@ def calculateFrames():
     miss = " MISS"
 
     for i in range(len(fileLines)):
-        
+
         # Scan 1 - Searches for unique x and y coords, as well as total number of drawn frames.
         if(fileLines[i].find("SubT") != -1):
             nameBound1 = fileLines[i].find("x=\"")
@@ -45,7 +45,7 @@ def calculateFrames():
             if(repeat != 'true'):
                 coordList.append(frameAdd)
                 frameCount += 1
-                
+
             if(up in fileLines[i].upper()):
                 anim = up
             elif(down in fileLines[i].upper()):
@@ -61,7 +61,7 @@ def calculateFrames():
             if(miss in fileLines[i].upper()):
                 anim = anim + miss
             animList.append(anim)
-        
+
     for y in range(len(fileLines)):
         pass
     print(animList)
@@ -71,10 +71,9 @@ def calculateFrames():
     print(globalVars.yRes)
     print(globalVars.spaceRes)
 
-
 def saveXml(fileLines):
     global xml
-    
+
     newFile = open(dir+globalVars.output+xml, "r")
     newFileList = list()
     newFileList = fileLines

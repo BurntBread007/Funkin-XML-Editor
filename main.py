@@ -63,11 +63,14 @@ def checkType(inpMax):
     inp = input()
     try:
         inpInt = int(inp)
-        if(inpInt < 1 & inpInt <= inpMax):
+        if(inpInt < 1):
             inpInt = inpInt * -1
+        if(inpInt > inpMax):
+            print("\nNumber is too high. Try a smaller number.")
+            return(checkType(inpMax))
         return inpInt
     except ValueError:
-        print("Invalid response. Try again with a whole number.")
+        print("\nInvalid response. Try again with a whole number.")
         return(checkType(inpMax))
 
 def askFrameSettings():
@@ -82,11 +85,11 @@ def askFrameSettings():
         print("\nFrame Y-resolution? (Max is 2048 pixels)")
         globalVars.yRes = checkType(2048)
         globalVars.spaceRes = int(((globalVars.xRes+globalVars.yRes) * 0.025)+1)
-        print("SpaceRes " + str(globalVars.spaceRes))
-        print("Xres " + str(globalVars.xRes))
-        print("Yres " + str(globalVars.yRes))
+        print("\nHow many frames will the spritesheet have? (Max is 256 frames")
+        globalVars.frameCount = checkType(256)
     elif(frameMakeMethod == 2):
         print("not done yet")
+        exitOnPress()
     
 def exitOnPress():
     exitPress = input("\n\nPress Enter to close program...")
