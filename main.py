@@ -8,8 +8,6 @@ import os
 #from lib import VanillaEngine, KadeEngine, PsychEngine
 
 from lib import globalVars, SpriteConverting, ImageWriting, XmlEditing
-from PIL import ImageDraw, Image, ImageFont, features
-direct = os.getcwd()
 
 #class Main:
 #    def __init__(self, var):
@@ -48,10 +46,13 @@ def printMainMenu():
     inp = checkType(5)
     if(inp == 1):
         askFrameSettings()
+        globalVars.usingXml = 'false'
         ImageWriting.run()
     elif(inp == 2):
         askFrameSettings()
+        globalVars.usingXml = 'true'
         XmlEditing.run()
+        ImageWriting.run()
     elif(inp == 3):
         SpriteConverting.run(0)
     elif(inp == 4):

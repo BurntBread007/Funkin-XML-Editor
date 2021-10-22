@@ -18,8 +18,7 @@ def scanXml():
     file.close()
 
 def calculateFrames():
-    coordList = list()
-    animList = list()
+    globalVars.coordList = list()
     frameCount = 0
 
     anim = ""
@@ -39,11 +38,11 @@ def calculateFrames():
             nameBound2 = fileLines[i].find("\" w")
             frameAdd = fileLines[i][nameBound1:fileLines[i].find("\"",nameBound2)]+"\""
             repeat = 'false'
-            for x in range(len(coordList)):
-                if(frameAdd == coordList[x]):
+            for x in range(len(globalVars.coordList)):
+                if(frameAdd == globalVars.coordList[x]):
                     repeat = 'true'
             if(repeat != 'true'):
-                coordList.append(frameAdd)
+                globalVars.coordList.append(frameAdd)
                 frameCount += 1
 
             if(up in fileLines[i].upper()):
@@ -60,12 +59,12 @@ def calculateFrames():
                 anim = idle
             if(miss in fileLines[i].upper()):
                 anim = anim + miss
-            animList.append(anim)
+            globalVars.animList.append(anim)
 
     for y in range(len(fileLines)):
         pass
-    print(animList)
-    print(coordList)
+    print(globalVars.animList)
+    print(globalVars.coordList)
     print(str(frameCount) + " frames\n\n")
     print(globalVars.xRes)
     print(globalVars.yRes)
@@ -78,3 +77,7 @@ def saveXml(fileLines):
     newFileList = list()
     newFileList = fileLines
     newFile.close()
+
+def waitforFile():
+    print("\nNow place the XML file you want to edit into this program's \"input\" folder.\nPress enter to continue...")
+    wait = input()

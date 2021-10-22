@@ -1,6 +1,5 @@
 from PIL import ImageDraw, Image, ImageFont, features
 import lib.globalVars as globalVars
-import array
 
 xFill = 0
 yFill = 0
@@ -46,26 +45,26 @@ def calcCoords():
 
 def drawCoords():
     global xResolution, yResolution, xFill, xFill, xCoords, yCoords
-    frameCount = globalVars.frameCount
     spaceRes = globalVars.spaceRes
 
     img = Image.new('RGBA', (xResolution, yResolution), (0,0,0,0))
     draw = ImageDraw.Draw(img)
 
-    font_numbers_size = int(yFill / 3)
-    font_numbers = ImageFont.truetype('arial.ttf', font_numbers_size)
+    numberSize = int(yFill / 3)
+    numberFont = ImageFont.truetype('arial.ttf', numberSize)
 
     if(xFill >= yFill):
-        font_names_size = int(yFill / 4)
+        nameSize = int(yFill / 4)
     else:
-        font_names_size = int(xFill / 3.5)
-    font_names = ImageFont.truetype('arial.ttf', font_names_size)
+        nameSize = int(xFill / 3.5)
+    nameFont = ImageFont.truetype('arial.ttf', nameSize)
 
     for x in range((globalVars.frameCount)):
         coords = [xCoords[x], yCoords[x], xCoords[x]+xFill-spaceRes, yCoords[x]+yFill-spaceRes]
         draw.rectangle(coords, fill ='#2B9100', outline ='red')
-        draw.text((xCoords[x], yCoords[x]), str(x+1), fill='#003E6B', font=font_numbers)
-        #draw.text((xCoords[x], yCoords[x]+(yFill/3)), typeCoords[x], fill='black', font=font_names)
+        draw.text((xCoords[x], yCoords[x]), str(x+1), fill='#003E6B', font=numberFont)
+        if(globalVars.usingXml == 'true'):
+            draw.text((xCoords[x], yCoords[x]+(yFill/3)), globalVars.animList[x], fill='black', font=nameFont)
 
     img.show()
     img.save(globalVars.direct+"\\output\\CUSTOM_SPRITE_OUTLINE.png")
