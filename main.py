@@ -1,7 +1,6 @@
 #
 # Comments
 #
-
 import io
 import os
 

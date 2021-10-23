@@ -3,11 +3,12 @@ import lib.globalVars as globalVars
 
 fileLines = list()
 xml = "test.xml"
+allCoords = list()
 
 def run():
     scanXml()
     calculateFrames()
-    #saveXml()
+    saveXml()
 
 def scanXml():
     global fileLines, xml
@@ -18,6 +19,7 @@ def scanXml():
     file.close()
 
 def calculateFrames():
+    global fileLines, allCoords
     globalVars.coordList = list()
     frameCount = 0
 
@@ -28,7 +30,7 @@ def calculateFrames():
     right = "RIGHT"
     hey = "HEY"
     idle = "IDLE"
-    miss = " MISS"
+    miss = "\nMISS"
 
     for i in range(len(fileLines)):
 
@@ -37,6 +39,7 @@ def calculateFrames():
             nameBound1 = fileLines[i].find("x=\"")
             nameBound2 = fileLines[i].find("\" w")
             frameAdd = fileLines[i][nameBound1:fileLines[i].find("\"",nameBound2)]+"\""
+            allCoords.append(frameAdd)
             repeat = 'false'
             for x in range(len(globalVars.coordList)):
                 if(frameAdd == globalVars.coordList[x]):
@@ -45,37 +48,48 @@ def calculateFrames():
                 globalVars.coordList.append(frameAdd)
                 frameCount += 1
 
-            if(up in fileLines[i].upper()):
-                anim = up
-            elif(down in fileLines[i].upper()):
-                anim = down
-            elif(left in fileLines[i].upper()):
-                anim = left
-            elif(right in fileLines[i].upper()):
-                anim = right
-            elif(hey in fileLines[i].upper()):
-                anim = hey
-            elif(idle in fileLines[i].upper()):
-                anim = idle
-            if(miss in fileLines[i].upper()):
-                anim = anim + miss
-            globalVars.animList.append(anim)
+                if(up in fileLines[i].upper()):
+                    anim = up
+                elif(down in fileLines[i].upper()):
+                    anim = down
+                elif(left in fileLines[i].upper()):
+                    anim = left
+                elif(right in fileLines[i].upper()):
+                    anim = right
+                elif(hey in fileLines[i].upper()):
+                    anim = hey
+                elif(idle in fileLines[i].upper()):
+                    anim = idle
+                if(miss in fileLines[i].upper()):
+                    anim = anim + miss
+                globalVars.animList.append(anim)
 
-    for y in range(len(fileLines)):
-        pass
     print(globalVars.animList)
     print(globalVars.coordList)
-    print(str(frameCount) + " frames\n\n")
+    print(str(frameCount) + " frames\n")
     print(globalVars.xRes)
     print(globalVars.yRes)
-    print(globalVars.spaceRes)
+    print(globalVars.spaceRes)   
 
-def saveXml(fileLines):
-    global xml
+def saveXml():
+    global xml, fileLines, allCoords
 
-    newFile = open(dir+globalVars.output+xml, "r")
+    newFile = open(globalVars.direct+globalVars.output+xml, "r")
     newFileList = list()
     newFileList = fileLines
+    
+    counter = 0
+    newLineList = list()
+    for x in fileLines:
+        nameBound1 = x.find("x=\"")
+        nameBound2 = x.find("\" w")
+        frameAdd = x[nameBound1:x.find("\"",nameBound2)]+"\""
+        newLineList.append(x[0:nameBound1] + allCoords[counter] + " width=\""+str(globalVars.xRes)+"\" height=\""+str(globalVars.yRes)+"\" frameX=\""+str(0)+"\" frameY=\""+str(0)+"\" frameWidth=\""+str(globalVars.spaceRes+globalVars.xRes)+"\" frameHeight=\""+str(globalVars.spaceRes+globalVars.yRes)+"\"/>")
+        print(newLineList[counter])
+        counter += 1
+    for y in newLineList:
+        newFile.writelines(y)
+        print(y)
     newFile.close()
 
 def waitforFile():

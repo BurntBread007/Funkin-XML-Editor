@@ -3,10 +3,8 @@ import lib.globalVars as globalVars
 
 xFill = 0
 yFill = 0
-
 xResolution = 0
 yResolution = 0
-
 xCoords = list()
 yCoords = list()
 
@@ -56,7 +54,7 @@ def drawCoords():
     if(xFill >= yFill):
         nameSize = int(yFill / 4)
     else:
-        nameSize = int(xFill / 3.5)
+        nameSize = int(xFill / 5)
     nameFont = ImageFont.truetype('arial.ttf', nameSize)
 
     for x in range((globalVars.frameCount)):
