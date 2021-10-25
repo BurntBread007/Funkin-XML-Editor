@@ -76,13 +76,32 @@ def saveXml():
 
     newFile = open(globalVars.direct+globalVars.output+xml, "r")
     newFileList = list()
-    newFileList = fileLines
+
+    firstLine = fileLines[1]
+    secondLine = fileLines[2]
+    name = ""
+    width = int(globalVars.xRes)
+    height = globalVars.yRes
+    frameWidth = width+globalVars.spaceRes
+    frameHeight = height+globalVars.spaceRes
+    frameWidth = 0
+    frameHeight = 0
+    end = "/>"
+    newFileList.append(firstLine)
+    newFileList.append(secondLine)
+    for x in range(len(fileLines)-2):
+        nameBound1 = x.find("x=\"")
+        nameBound2 = x.find("\" w")
+        name = fileLines[nameBound1:x.find("\"",nameBound2)]+"\""
+        coord = allCoords[x]
+        
+        currentLine = name + coord + 
+        
     
     counter = 0
     newLineList = list()
     for x in fileLines:
-        nameBound1 = x.find("x=\"")
-        nameBound2 = x.find("\" w")
+
         frameAdd = x[nameBound1:x.find("\"",nameBound2)]+"\""
         newLineList.append(x[0:nameBound1] + allCoords[counter] + " width=\""+str(globalVars.xRes)+"\" height=\""+str(globalVars.yRes)+"\" frameX=\""+str(0)+"\" frameY=\""+str(0)+"\" frameWidth=\""+str(globalVars.spaceRes+globalVars.xRes)+"\" frameHeight=\""+str(globalVars.spaceRes+globalVars.yRes)+"\"/>")
         print(newLineList[counter])
